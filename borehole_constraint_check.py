@@ -190,32 +190,69 @@ def build_feature_summary(row_dict, dataset_cfg, distance_value=None):
         if v:
             extra_parts.append("{0}: {1}".format(fld, v))
 
-    summary = " ".join(main_parts).strip()
+    header = " ".join(main_parts).strip()
+    extras_text = "; ".join(extra_parts).strip()
 
-    if extra_parts:
-        if summary:
-            summary = "{0}; {1}".format(summary, "; ".join(extra_parts))
-        else:
-            summary = "; ".join(extra_parts)
-
+    distance_text = ""
     if distance_value is not None:
         try:
-            if summary:
-                summary = "{0}; distance away: {1:.1f} m".format(summary, float(distance_value))
-            else:
-                summary = "distance away: {0:.1f} m".format(float(distance_value))
+            distance_text = "distance away: {0:.1f} m".format(float(distance_value))
         except Exception:
-            if summary:
-                summary = "{0}; distance away: {1} m".format(summary, distance_value)
-            else:
-                summary = "distance away: {0} m".format(distance_value)
+            distance_text = "distance away: {0} m".format(distance_value)
+
+    if header and distance_text:
+        summary = "{0} - {1}".format(header, distance_text)
+    elif header:
+        summary = header
+    elif distance_text:
+        summary = distance_text
+    else:
+        summary = ""
+
+    if extras_text:
+        if summary:
+            summary = "{0}; {1}".format(summary, extras_text)
+        else:
+            summary = extras_text
 
     return summary.strip()
 
 
-def merge_result_strings(items, sep="; "):
-    clean = [safe_str(i) for i in items if safe_str(i)]
+def merge_result_strings(items, sep="\n"):
+    clean = []
+    seen = set()
+    for item in items:
+        txt = safe_str(item)
+        if not txt:
+            continue
+        if txt in seen:
+            continue
+        seen.add(txt)
+        clean.append(txt)
     return sep.join(clean)
+
+
+def split_result_items(result_text):
+    txt = safe_str(result_text)
+    if not txt:
+        return []
+    return [line for line in txt.split("\n") if safe_str(line)]
+
+
+def attach_distance_to_summary(summary_text, distance_value):
+    if distance_value is None:
+        return safe_str(summary_text)
+
+    try:
+        distance_text = "distance away: {0:.1f} m".format(float(distance_value))
+    except Exception:
+        distance_text = "distance away: {0} m".format(distance_value)
+
+    if "; " in summary_text:
+        header, extras = summary_text.split("; ", 1)
+        return "{0} - {1}; {2}".format(header, distance_text, extras)
+
+    return "{0} - {1}".format(summary_text, distance_text)
 
 
 def sql_where(dataset_cfg):
@@ -311,7 +348,7 @@ def rule_list_within_distance(bh_geom, dataset_cfg, dataset_path, distance_m):
 
     fields.append(get_geometry_token())
 
-    summaries = []
+    closest_by_summary = {}
     with arcpy.da.SearchCursor(lyr, fields) as cursor:
         for row in cursor:
             row_vals = list(row)
@@ -324,9 +361,27 @@ def rule_list_within_distance(bh_geom, dataset_cfg, dataset_path, distance_m):
             except Exception:
                 dist = None
 
-            summaries.append(build_feature_summary(row_dict, dataset_cfg, dist))
+            summary_key = build_feature_summary(row_dict, dataset_cfg)
+            existing = closest_by_summary.get(summary_key)
 
-    return merge_result_strings(sorted(set(summaries)))
+            if existing is None:
+                closest_by_summary[summary_key] = dist
+                continue
+
+            if dist is not None and (existing is None or dist < existing):
+                closest_by_summary[summary_key] = dist
+
+    ordered_items = sorted(
+        closest_by_summary.items(),
+        key=lambda kv: float("inf") if kv[1] is None else kv[1]
+    )
+    summaries = []
+    for summary_key, best_dist in ordered_items:
+        if not summary_key:
+            continue
+        summaries.append(attach_distance_to_summary(summary_key, best_dist))
+
+    return merge_result_strings(summaries)
 
 
 def rule_nearest_feature(bh_geom, dataset_cfg, dataset_path, distance_m=None):
@@ -346,7 +401,6 @@ def rule_nearest_feature(bh_geom, dataset_cfg, dataset_path, distance_m=None):
     nearest_summary = ""
     nearest_dist = None
 
-    where = sql_where(dataset_cfg)
     lyr = feature_layer_with_optional_where(dataset_path, dataset_cfg, "lyr_nearest_feature")
 
     with arcpy.da.SearchCursor(lyr, fields) as cursor:
@@ -402,10 +456,9 @@ def rule_list_within_distance_multi(bh_geom, config, rule, projected_datasets):
         dataset_cfg = config["datasets"][ds_key]
         dataset_path = projected_datasets[ds_key]
         result = rule_list_within_distance(bh_geom, dataset_cfg, dataset_path, distance_m)
-        if result:
-            all_items.extend(result.split("; "))
+        all_items.extend(split_result_items(result))
 
-    return merge_result_strings(sorted(set(all_items)))
+    return merge_result_strings(all_items)
 
 
 def rule_intersect_detail_multi(bh_geom, config, rule, projected_datasets):
@@ -415,10 +468,9 @@ def rule_intersect_detail_multi(bh_geom, config, rule, projected_datasets):
         dataset_cfg = config["datasets"][ds_key]
         dataset_path = projected_datasets[ds_key]
         result = rule_intersect_detail(bh_geom, dataset_cfg, dataset_path)
-        if result:
-            all_items.extend(result.split("; "))
+        all_items.extend(split_result_items(result))
 
-    return merge_result_strings(sorted(set(all_items)))
+    return merge_result_strings(all_items)
 
 
 def rule_nearest_feature_multi(bh_geom, config, rule, projected_datasets):
