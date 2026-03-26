@@ -1,0 +1,460 @@
+{
+  "target_projection": {
+    "wkid": 27700
+  },
+  "borehole_output_fields": [
+    "Location"
+  ],
+  "datasets": {
+    "sssi": {
+      "label": "SSSI",
+      "path": "Z:/Projects/Morven/SDE/SQLServer-m3-arcgisdb-m3windProddb(Morven).sde/MV_ECO_NE_0487_R01_SSSI",
+      "name_field": "SSSI_NAME",
+      "type_field": "",
+      "summary_fields": []
+    },
+    "spa": {
+      "label": "SPA",
+      "path": "Z:/Projects/Morven/SDE/SQLServer-m3-arcgisdb-m3windProddb(Morven).sde/MV_ECO_NE_0486_R01_SPA",
+      "name_field": "SPA_NAME",
+      "type_field": "",
+      "summary_fields": []
+    },
+    "ramsar": {
+      "label": "RAMSAR",
+      "path": "Z:/Projects/Morven/SDE/SQLServer-m3-arcgisdb-m3windProddb(Morven).sde/MV_ECO_NE_0484_R01_RAMSAR",
+      "name_field": "NAME",
+      "type_field": "",
+      "summary_fields": []
+    },
+    "sac": {
+      "label": "SAC",
+      "path": "Z:/Projects/Morven/SDE/SQLServer-m3-arcgisdb-m3windProddb(Morven).sde/MV_ECO_NE_0485_R01_SAC",
+      "name_field": "SAC_NAME",
+      "type_field": "",
+      "summary_fields": []
+    },
+    "priority_habitat": {
+      "label": "Priority Habitats",
+      "path": "Z:/Projects/Morven/APRX/Working/Works Plans Working/Works Plans Working.gdb/MV_SELECT_PriorityHabitatsInventoryEngland_NaturalEngland_ExportFeatures_PriorityOnly",
+      "name_field": "MainHabs",
+      "type_field": "HABITAT_TYPE",
+      "summary_fields": ["OtherClass"]
+    },
+    "ukhab": {
+      "label": "UKHab Areas",
+      "path": "Z:/Projects/Morven/SDE/SQLServer-m3-arcgisdb-m3windProddb(Morven).sde/MV_ECO_RAM_1032_R02_PEIR_UKHabArea",
+      "name_field": "ukhabpcode",
+      "type_field": "",
+      "summary_fields": ["notes", "distinctivness"]
+    },
+
+    "ecology_notes_ukhab_points": {
+        "label": "Ecology Notes - UKHab Points",
+        "path": "Z:/Projects/Morven/SDE/SQLServer-m3-arcgisdb-m3windProddb(Morven).sde/MV_ECO_RAM_1033_R01_PEIR_UKHabPoints",
+        "name_field": "ukhabpcode",
+        "type_field": "",
+        "summary_fields": ["notes","condition", "size", "distinctivness"]
+    },
+    "ecology_notes_ukhab_lines": {
+        "label": "Ecology Notes - UKHab Lines",
+        "path": "Z:/Projects/Morven/SDE/SQLServer-m3-arcgisdb-m3windProddb(Morven).sde/MV_ECO_RAM_1047_R01_PEIR_UKHabLine",
+        "name_field": "ukhabpcode",
+        "type_field": "",
+        "summary_fields": ["distinctivness"]
+    },
+
+    "ecology_notes_bat_survey_results": {
+        "label": "Ecology Notes - Bat Survey Results",
+        "path": "Z:/Projects/Morven/SDE/SQLServer-m3-arcgisdb-m3windProddb(Morven).sde/MV_ECO_RAM_1036_R01_PEIR_BatSurveyResults",
+        "name_field": "Tree_species_value",
+        "type_field": "",
+        "summary_fields": ["Tree_Health","Tree_dead_","Tree_Height__m_","Description"]
+    },
+    "ecology_notes_badger_field_signs": {
+        "label": "Ecology Notes - Badger Field Signs",
+        "path": "Z:/Projects/Morven/SDE/SQLServer-m3-arcgisdb-m3windProddb(Morven).sde/MV_ECO_RAM_1034_R01_PEIR_BadgerFieldSigns",
+        "name_field": "BadgerFieldSign",
+        "type_field": "",
+        "summary_fields": []
+    },
+    "ecology_notes_badger_survey_results": {
+        "label": "Ecology Notes - Badger Survey Results",
+        "path": "Z:/Projects/Morven/SDE/SQLServer-m3-arcgisdb-m3windProddb(Morven).sde/MV_ECO_RAM_1035_R01_PEIR_BadgerSurvey",
+        "name_field": "BadgerClass",
+        "type_field": "",
+        "summary_fields": [
+        "BadgerBadgeActivityLevels",
+        "Reference",
+        "Notes"
+        ]
+    },
+    "ecology_notes_reptile_survey_mats": {
+        "label": "Ecology Notes - Reptile Survey Mats",
+        "path": "Z:/Projects/Morven/SDE/SQLServer-m3-arcgisdb-m3windProddb(Morven).sde/MV_ECO_RAM_1037_R01_PEIR_ReptileSurveyMats",
+        "name_field": "Notes",
+        "type_field": "",
+        "summary_fields": [
+        "RefugiaNumberText"
+        ]
+    },
+    "ecology_notes_otter_field_signs": {
+        "label": "Ecology Notes - Otter Field Signs",
+        "path": "Z:/Projects/Morven/SDE/SQLServer-m3-arcgisdb-m3windProddb(Morven).sde/MV_ECO_RAM_1038_R01_PEIR_OtterFieldSigns",
+        "name_field": "OtterFieldSign",
+        "type_field": "",
+        "summary_fields": [
+        "Activity",
+        "FeatureReference"
+        ]
+    },
+    "ecology_notes_great_crested_newt_survey_ditches": {
+        "label": "Ecology Notes - Great Crested Newt Survey - Ditches",
+        "path": "Z:/Projects/Morven/SDE/SQLServer-m3-arcgisdb-m3windProddb(Morven).sde/MV_ECO_RAM_1051_R01_PEIR_GreatCrestedNewtDitches",
+        "name_field": "Status",
+        "type_field": "",
+        "summary_fields": [
+        "DitchID",
+        "Notes"
+        ]
+    },
+    "ecology_notes_great_crested_newt_survey_ponds": {
+        "label": "Ecology Notes - Great Crested Newt Survey - Ponds",
+        "path": "Z:/Projects/Morven/SDE/SQLServer-m3-arcgisdb-m3windProddb(Morven).sde/MV_ECO_RAM_1052_R01_PEIR_GreatCrestedNewtPonds",
+        "name_field": "Status",
+        "type_field": "Name",
+        "summary_fields": [
+        "Label",
+        "Score",
+        "ID"
+        ]
+    },
+    "ecology_notes_breeding_birds_visit_1_5_combined_mid_point_of_species_behaviour": {
+        "label": "Ecology Notes - Breeding Birds Visit 1-5 - Combined mid-point of species/behaviour",
+        "path": "Z:/Projects/Morven/SDE/SQLServer-m3-arcgisdb-m3windProddb(Morven).sde/MV_ECO_RAM_1053_R01_PEIR_BreedingBirdsVisitCombined",
+        "name_field": "Species",
+        "type_field": "",
+        "summary_fields": [
+        "Activity",
+        "No",
+        "Notes"
+        ]
+    },
+    "ecology_notes_wintering_birds_visit_2_december_2025": {
+        "label": "Ecology Notes - Wintering Birds Visit 2 December 2025",
+        "path": "Z:/Projects/Morven/SDE/SQLServer-m3-arcgisdb-m3windProddb(Morven).sde/MV_ECO_RAM_1055_R01_PEIR_WinteringBirdsVisit2Dec2025",
+        "name_field": "SPEC",
+        "type_field": "",
+        "summary_fields": [
+        "ACTIVITY",
+        "BIRDNO",
+        "Tide",
+        "Notes"
+        ]
+    },
+    "ecology_notes_wintering_birds_visit_1_november_2025": {
+        "label": "Ecology Notes - Wintering Birds Visit 1 November 2025",
+        "path": "Z:/Projects/Morven/SDE/SQLServer-m3-arcgisdb-m3windProddb(Morven).sde/MV_ECO_RAM_1054_R01_PEIR_WinteringBirdsVisit1Nov2025",
+        "name_field": "SPEC",
+        "type_field": "",
+        "summary_fields": [
+        "ACTIVITY",
+        "BIRDNO",
+        "Tide",
+        "Notes"
+        ]
+    },
+    "ecology_notes_wintering_birds_visit_3_january_2026": {
+        "label": "Ecology Notes - Wintering Birds Visit 3 January 2026",
+        "path": "Z:/Projects/Morven/SDE/SQLServer-m3-arcgisdb-m3windProddb(Morven).sde/MV_ECO_RAM_1045_R01_PEIR_WinteringBirdsVisit3Jan2026",
+        "name_field": "SPEC",
+        "type_field": "",
+        "summary_fields": [
+        "ACTIVITY",
+        "BIRDNO",
+        "Tide",
+        "Notes"
+        ]
+    },
+    "ecology_notes_wintering_birds_visit_4_february_2026": {
+        "label": "Ecology Notes - Wintering Birds Visit 4 February 2026",
+        "path": "Z:/Projects/Morven/SDE/SQLServer-m3-arcgisdb-m3windProddb(Morven).sde/MV_ECO_RAM_1046_R01_PEIR_WinteringBirdsVisit4Feb2026",
+        "name_field": "SPEC",
+        "type_field": "",
+        "summary_fields": [
+        "ACTIVITY",
+        "BIRDNO",
+        "Tide",
+        "Notes"
+        ]
+    },
+    "ecology_notes_breeding_birds_visit_1_2_4_april_2025": {
+        "label": "Ecology Notes - Breeding Birds Visit 1 (2 - 4 April 2025)",
+        "path": "Z:/Projects/Morven/SDE/SQLServer-m3-arcgisdb-m3windProddb(Morven).sde/MV_ECO_RAM_1039_R01_PEIR_BreedingBirdsVisit1",
+        "name_field": "SPEC",
+        "type_field": "",
+        "summary_fields": [
+        "ACTIVITY",
+        "BIRDNO",
+        "Tide",
+        "Notes"
+        ]
+    },
+    "ecology_notes_breeding_birds_visit_2_29_april_2_may_2025": {
+        "label": "Ecology Notes - Breeding Birds Visit 2 (29 April - 2 May 2025)",
+        "path": "Z:/Projects/Morven/SDE/SQLServer-m3-arcgisdb-m3windProddb(Morven).sde/MV_ECO_RAM_1040_R01_PEIR_BreedingBirdsVisit2",
+        "name_field": "SPEC",
+        "type_field": "",
+        "summary_fields": [
+        "ACTIVITY",
+        "BIRDNO",
+        "Tide",
+        "Notes"
+        ]
+    },
+    "ecology_notes_breeding_birds_visit_3_19_22_may_2025": {
+        "label": "Ecology Notes - Breeding Birds Visit 3 (19 - 22 May 2025)",
+        "path": "Z:/Projects/Morven/SDE/SQLServer-m3-arcgisdb-m3windProddb(Morven).sde/MV_ECO_RAM_1041_R01_PEIR_BreedingBirdsVisit3",
+        "name_field": "SPEC",
+        "type_field": "",
+        "summary_fields": [
+        "ACTIVITY",
+        "BIRDNO",
+        "Tide",
+        "Notes"
+        ]
+    },
+    "ecology_notes_breeding_birds_visit_4_11_13_june_2025": {
+        "label": "Ecology Notes - Breeding Birds Visit 4 (11 - 13 June 2025)",
+        "path": "Z:/Projects/Morven/SDE/SQLServer-m3-arcgisdb-m3windProddb(Morven).sde/MV_ECO_RAM_1042_R01_PEIR_BreedingBirdsVisit4",
+        "name_field": "SPEC",
+        "type_field": "",
+        "summary_fields": [
+        "ACTIVITY",
+        "BIRDNO",
+        "Tide",
+        "Notes"
+        ]
+    },
+    "ecology_notes_breeding_birds_visit_5_16_18_july_2025": {
+        "label": "Ecology Notes - Breeding Birds Visit 5 (16 - 18 July 2025)",
+        "path": "Z:/Projects/Morven/SDE/SQLServer-m3-arcgisdb-m3windProddb(Morven).sde/MV_ECO_RAM_1043_R01_PEIR_BreedingBirdsVisit5",
+        "name_field": "SPEC",
+        "type_field": "",
+        "summary_fields": [
+        "ACTIVITY",
+        "BIRDNO",
+        "Tide",
+        "Notes"
+        ]
+    },
+    "ecology_notes_breeding_birds_visit_6_20_22_oct_2025": {
+        "label": "Ecology Notes - Breeding Birds Visit 6 (20 - 22 Oct 2025)",
+        "path": "Z:/Projects/Morven/SDE/SQLServer-m3-arcgisdb-m3windProddb(Morven).sde/MV_ECO_RAM_1044_R01_PEIR_BreedingBirdsVisit6",
+        "name_field": "SPEC",
+        "type_field": "",
+        "summary_fields": [
+        "ACTIVITY",
+        "BIRDNO",
+        "Tide",
+        "Notes"
+        ]
+    },
+    "heritage_listed_buildings_points": {
+        "label": "Heritage - Listed Buildings",
+        "path": "Z:/Projects/Morven/SDE/SQLServer-m3-arcgisdb-m3windProddb(Morven).sde/MV_CLT_HE_0774_R01_ListedBuildings",
+        "name_field": "Name",
+        "type_field": "Grade",
+        "summary_fields": [
+        "ListDate"
+        ]
+    },
+    "heritage_listed_buildings_polygons": {
+        "label": "Heritage - ListedListed Buildings",
+        "path": "Z:/Projects/Morven/SDE/SQLServer-m3-arcgisdb-m3windProddb(Morven).sde/MV_CLT_HE_0775_R01_ListedBuildingpolygons",
+        "name_field": "Name",
+        "type_field": "Grade",
+        "summary_fields": [
+        "ListDate"
+        ]
+    },
+    "heritage_scheduled_monuments_polygons": {
+        "label": "Heritage - ListedScheduled Monuments",
+        "path": "Z:/Projects/Morven/SDE/SQLServer-m3-arcgisdb-m3windProddb(Morven).sde/MV_CLT_HE_0776_R01_ScheduledMonuments",
+        "name_field": "Name",
+        "type_field": "REPLACE_TYPE_FIELD",
+        "summary_fields": [
+        "SchedDate"
+        ]
+    },
+    "historic_landfills": {
+        "label": "Historic Landfills",
+        "path": "Z:/Projects/Morven/SDE/SQLServer-m3-arcgisdb-m3windProddb(Morven).sde/MV_LND_EA_0797_R01_HistoricLandfillSites",
+        "name_field": "site_name",
+        "type_field": "",
+        "summary_fields": [
+        "site_ref",
+        "hld_ref"
+        ]
+    },
+    "authorised_landfills": {
+        "label": "Authorised Landfills",
+        "path": "Z:/Projects/Morven/SDE/SQLServer-m3-arcgisdb-m3windProddb(Morven).sde/MV_LND_EA_0798_R01_AuthorisedLandfillSite",
+        "name_field": "lic_name",
+        "type_field": "type_desc",
+        "summary_fields": [
+        "lic_nmbr",
+        "status",
+        "lic_site"
+        ]
+    },
+    "watercourses_open_rivers": {
+        "label": "Watercourses - OS Open Rivers",
+        "path": "Z:/Projects/Morven/APRX/Working/BRAG/BRAG.gdb/RiversOS_MV_extract",
+        "name_field": "name1",
+        "type_field": "form",
+        "summary_fields": []
+    },
+    "watercourses_surface_water_line": {
+        "label": "Watercourses - OS Surface Water Line",
+        "path": "Z:/Projects/Morven/APRX/Working/Designation Clip/Designation Clip.gdb/MV_Surface_Water_Line_Clip",
+        "name_field": "",
+        "type_field": "",
+        "summary_fields": []
+    },
+    "watercourses_surface_water_area": {
+        "label": "Watercourses - OS Surface Water Area",
+        "path": "Z:/Projects/Morven/APRX/Working/Designation Clip/Designation Clip.gdb/MV_Surface_Water_Area_Clip",
+        "name_field": "",
+        "type_field": "",
+        "summary_fields": []
+    },
+    "flood_zone_2": {
+        "label": "Flood Zone 2",
+        "path": "Z:/Projects/Morven/APRX/Working/BRAG/BRAG.gdb/MV_EXtract_Flood_Zones_2_3_Rivers_and_Sea_FZ2",
+        "name_field": "flood_zone",
+        "type_field": "flood_source",
+        "summary_fields": []
+    },
+    "flood_zone_3": {
+        "label": "Flood Zone 3",
+        "path": "Z:/Projects/Morven/APRX/Working/BRAG/BRAG.gdb/MV_EXtract_Flood_Zones_2_3_Rivers_and_Sea_FZ3",
+        "name_field": "flood_zone",
+        "type_field": "flood_source",
+        "summary_fields": []
+    },
+    "prow": {
+        "label": "PROW",
+      "path": "Z:/Projects/Morven/SDE/SQLServer-m3-arcgisdb-m3windProddb(Morven).sde/MV_LVI_SUS_0493_R02_PublicRightsOfWay",
+      "name_field": "Name",
+      "type_field": "Type_Full",
+      "summary_fields": []
+    }
+  },
+    "rules": [
+    {
+        "id": "statutory_onsite",
+        "type": "intersect_any",
+        "datasets": ["sssi", "spa", "ramsar", "sac"],
+        "output_field": "Ecology_Statutory_Site_Onsite"
+    },
+    {
+        "id": "statutory_within_30km",
+        "type": "list_within_distance",
+        "datasets": ["sssi", "spa", "ramsar", "sac"],
+        "distance_m": 30000,
+        "output_field": "Ecology_Statutory_Sites_Within_30km"
+    },
+    {
+        "id": "priority_habitat_onsite",
+        "type": "intersect_any",
+        "datasets": ["priority_habitat"],
+        "output_field": "Ecology_Priority_Habitat_Onsite"
+    },
+    {
+        "id": "ukhab_at_point",
+        "type": "habitat_at_point",
+        "datasets": ["ukhab"],
+        "output_field": "Ecology_Habitat_At_Location"
+    },
+    {
+        "id": "ecology_notes_within_15m",
+        "type": "list_within_distance",
+        "datasets": [
+        "ecology_notes_ukhab_points",
+        "ecology_notes_ukhab_lines",
+        "ecology_notes_bat_survey_results",
+        "ecology_notes_badger_field_signs",
+        "ecology_notes_badger_survey_results",
+        "ecology_notes_reptile_survey_mats",
+        "ecology_notes_otter_field_signs",
+        "ecology_notes_great_crested_newt_survey_ditches",
+        "ecology_notes_great_crested_newt_survey_ponds",
+        "ecology_notes_breeding_birds_visit_1_5_combined_mid_point_of_species_behaviour",
+        "ecology_notes_wintering_birds_visit_2_december_2025",
+        "ecology_notes_wintering_birds_visit_1_november_2025",
+        "ecology_notes_wintering_birds_visit_3_january_2026",
+        "ecology_notes_wintering_birds_visit_4_february_2026",
+        "ecology_notes_breeding_birds_visit_1_2_4_april_2025",
+        "ecology_notes_breeding_birds_visit_2_29_april_2_may_2025",
+        "ecology_notes_breeding_birds_visit_3_19_22_may_2025",
+        "ecology_notes_breeding_birds_visit_4_11_13_june_2025",
+        "ecology_notes_breeding_birds_visit_5_16_18_july_2025",
+        "ecology_notes_breeding_birds_visit_6_20_22_oct_2025"
+        ],
+        "distance_m": 15,
+        "output_field": "Ecology_Notes_Within_15m"
+    },
+    {
+        "id": "heritage_onsite",
+        "type": "intersect_detail",
+        "datasets": [
+        "heritage_listed_buildings_points",
+        "heritage_listed_buildings_polygons",
+        "heritage_scheduled_monuments_polygons"
+        ],
+        "output_field": "Heritage_Onsite"
+    },
+    {
+        "id": "heritage_within_100m",
+        "type": "list_within_distance",
+        "datasets": [
+        "heritage_listed_buildings_points",
+        "heritage_listed_buildings_polygons",
+        "heritage_scheduled_monuments_polygons"
+        ],
+        "distance_m": 100,
+        "output_field": "Heritage_Within_100m"
+    },
+    {
+        "id": "landfills_within_200m",
+        "type": "list_within_distance",
+        "datasets": [
+        "historic_landfills",
+        "authorised_landfills"
+        ],
+        "distance_m": 200,
+        "output_field": "Ground_Landfills_Within_200m"
+    },
+    {
+        "id": "waterbodies_within_30m",
+        "type": "list_within_distance",
+        "datasets": [
+        "watercourses_open_rivers",
+      "watercourses_surface_water_line",
+      "watercourses_surface_water_area",
+      "flood_zone_2",
+      "flood_zone_3"
+    ],
+    "distance_m": 30,
+    "output_field": "Ground_Waterbodies_Within_30m"
+  },
+  {
+    "id": "prow_within_15m",
+    "type": "list_within_distance",
+    "datasets": ["prow"],
+    "distance_m": 15,
+    "output_field": "General_PRoW_Within_15m"
+  }
+]
+}
