@@ -41,17 +41,14 @@ SCRATCH_GDB = arcpy.env.scratchGDB
 
 def msg(text):
     arcpy.AddMessage(str(text))
-    print(str(text))
 
 
 def warn(text):
     arcpy.AddWarning(str(text))
-    print("WARNING: {0}".format(text))
 
 
 def err(text):
     arcpy.AddError(str(text))
-    print("ERROR: {0}".format(text))
 
 
 def safe_str(value):
@@ -161,7 +158,17 @@ def get_dataset_field_value(row_dict, field_name):
     return safe_str(row_dict.get(field_name))
 
 
-def build_feature_summary(row_dict, dataset_cfg, distance_value=None):
+def format_distance_text(distance_value):
+    if distance_value is None:
+        return ""
+
+    try:
+        return "distance away: {0:.1f} m".format(float(distance_value))
+    except Exception:
+        return "distance away: {0} m".format(distance_value)
+
+
+def build_feature_parts(row_dict, dataset_cfg):
     label = dataset_cfg.get("label")
     name_field = dataset_cfg.get("name_field")
     type_field = dataset_cfg.get("type_field")
@@ -191,29 +198,30 @@ def build_feature_summary(row_dict, dataset_cfg, distance_value=None):
             extra_parts.append("{0}: {1}".format(fld, v))
 
     header = " ".join(main_parts).strip()
-    extras_text = "; ".join(extra_parts).strip()
+    return header, extra_parts
 
-    distance_text = ""
-    if distance_value is not None:
-        try:
-            distance_text = "distance away: {0:.1f} m".format(float(distance_value))
-        except Exception:
-            distance_text = "distance away: {0} m".format(distance_value)
+
+def build_feature_summary(row_dict, dataset_cfg, distance_value=None):
+    header, extra_parts = build_feature_parts(row_dict, dataset_cfg)
+    distance_text = format_distance_text(distance_value)
+
+    if extra_parts:
+        summary = "{0}:".format(header) if header else ""
+        detail_lines = ["\t- {0}".format(part) for part in extra_parts]
+        if distance_text:
+            detail_lines.append("\t- {0}".format(distance_text))
+        if summary:
+            return "{0}\n{1}".format(summary, "\n".join(detail_lines)).strip()
+        return "\n".join(detail_lines).strip()
 
     if header and distance_text:
-        summary = "{0} - {1}".format(header, distance_text)
+        summary = "{0} ({1})".format(header, distance_text)
     elif header:
         summary = header
     elif distance_text:
-        summary = distance_text
+        summary = "({0})".format(distance_text)
     else:
         summary = ""
-
-    if extras_text:
-        if summary:
-            summary = "{0}; {1}".format(summary, extras_text)
-        else:
-            summary = extras_text
 
     return summary.strip()
 
@@ -236,23 +244,39 @@ def split_result_items(result_text):
     txt = safe_str(result_text)
     if not txt:
         return []
-    return [line for line in txt.split("\n") if safe_str(line)]
+    lines = txt.split("\n")
+    items = []
+    current = []
+
+    for line in lines:
+        if not safe_str(line):
+            continue
+
+        is_detail_line = line.startswith("\t") or line.startswith(" ")
+        if not is_detail_line and current:
+            items.append("\n".join(current).strip())
+            current = []
+        current.append(line)
+
+    if current:
+        items.append("\n".join(current).strip())
+
+    return items
 
 
 def attach_distance_to_summary(summary_text, distance_value):
-    if distance_value is None:
-        return safe_str(summary_text)
+    summary_text = safe_str(summary_text)
+    distance_text = format_distance_text(distance_value)
+    if not distance_text:
+        return summary_text
 
-    try:
-        distance_text = "distance away: {0:.1f} m".format(float(distance_value))
-    except Exception:
-        distance_text = "distance away: {0} m".format(distance_value)
+    if "\n" in summary_text:
+        return "{0}\n\t- {1}".format(summary_text, distance_text).strip()
 
-    if "; " in summary_text:
-        header, extras = summary_text.split("; ", 1)
-        return "{0} - {1}; {2}".format(header, distance_text, extras)
+    if summary_text:
+        return "{0} ({1})".format(summary_text, distance_text)
 
-    return "{0} - {1}".format(summary_text, distance_text)
+    return "({0})".format(distance_text)
 
 
 def sql_where(dataset_cfg):
