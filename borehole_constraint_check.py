@@ -206,8 +206,11 @@ def build_feature_summary(row_dict, dataset_cfg, distance_value=None):
     distance_text = format_distance_text(distance_value)
 
     if extra_parts:
-        summary = "{0}:".format(header) if header else ""
-        detail_lines = ["\t- {0}".format(part) for part in extra_parts]
+        if header:
+            summary = header if header.endswith(":") else "{0}:".format(header)
+        else:
+            summary = ""
+        detail_lines = ["	- {0}".format(part) for part in extra_parts]
         if distance_text:
             detail_lines.append("\t- {0}".format(distance_text))
         if summary:
